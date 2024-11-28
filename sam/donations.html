@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food and Clothes Donation</title>
+    <style>
+        /* Basic styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('https://static.vecteezy.com/system/resources/previews/000/688/286/original/charity-and-donation-vector.jpg') no-repeat center center fixed;
+    background-size: cover;
+    transition: background 0.5s ease-in-out;
+}
+
+/* Center the content on the first page */
+.main-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+button {
+    font-size: 1.2em;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+
+button:hover {
+    opacity: 1;
+}
+
+/* Hidden form sections */
+.form-section {
+    display: none;
+    margin-top: 50px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    text-align: left;
+    width: 80%;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Input and select styles */
+input, select {
+    padding: 10px;
+    font-size: 1em;
+    width: 100%;
+    margin-bottom: 15px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Donation button */
+.donate-btn {
+    display: none;
+    background-color: rgba(50, 205, 50, 0.8);
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Orphanage profiles section */
+.profile-container, .orphanage-select-section {
+    display: none;
+    margin-top: 50px;
+}
+
+.profile {
+    width: 300px;
+    margin: 15px;
+    padding: 20px;
+    text-align: left;
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile img {
+    width: 100%;
+    border-radius: 10px;
+    opacity: 0.9;
+}
+
+.profile h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.profile p {
+    color: #666;
+    font-size: 1em;
+}
+
+/* Background transition based on donation type */
+.food-bg {
+    background: url('https://static.independent.co.uk/s3fs-public/thumbnails/image/2020/03/18/17/istock-1127566187.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+.clothes-bg {
+    background: url('https://images.seattleschild.com/wp-content/uploads/2020/05/iStock-856564654.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+
+    </style>
+</head>
+<body>
+   
+    <!-- Main Section with Headers -->
+    <a href="home.html">Back to Home</a>
+    <div class="main-section">
+        <h1>Food and Clothes Donation</h1>
+        <div class="button-container">
+            <button class="food-btn" onclick="showFoodForm()">Start Food Donation</button>
+            <button class="clothes-btn" onclick="showClothesForm()">Start Clothes Donation</button>
+        </div>
+    </div>
+
+    <!-- Food Donation Form -->
+    <div id="food" class="form-section">
+        <h2>Food Donation</h2>
+        <label for="persons">How many persons can eat:</label>
+        <input type="number" id="persons" name="persons" placeholder="Enter the number of persons" oninput="checkFoodForm()">
+        
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" onchange="checkFoodForm()">
+        
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" onchange="checkFoodForm()">
+        
+        <button id="donate-food-btn" class="donate-btn" onclick="showOrphanageProfiles('food')">Donate Now</button>
+    </div>
+
+    <!-- Clothes Donation Form -->
+    <div id="clothes" class="form-section">
+        <h2>Clothes Donation</h2>
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" onchange="checkClothesForm()">
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+
+        <label for="age-group">Age Group:</label>
+        <select id="age-group" name="age-group" onchange="checkClothesForm()">
+            <option value="">Select Age Group</option>
+            <option value="children">Children (0-12 years)</option>
+            <option value="teenagers">Teenagers (13-19 years)</option>
+            <option value="adults">Adults (20+ years)</option>
+        </select>
+        
+        <label for="pairs">Number of Pairs:</label>
+        <input type="number" id="pairs" name="pairs" placeholder="Enter the number of pairs" oninput="checkClothesForm()">
+        
+        <button id="donate-clothes-btn" class="donate-btn" onclick="showOrphanageProfiles('clothes')">Donate Now</button>
+    </div>
+
+    <!-- Orphanage Profiles Section -->
+    <div id="profile-container" class="profile-container" style="display: none;">
+        <h2>Orphanage Profiles</h2>
+        <div class="profile">
+            <img src="https://via.placeholder.com/300x200" alt="Orphanage 1">
+            <h2>Happy Hearts Orphanage</h2>
+            <p>Location: 123 Main St, City A</p>
+            <p>Capacity: 50 children</p>
+            <p>Contact: +123-456-7890</p>
+        </div>
+
+        <div class="profile">
+            <img src="https://via.placeholder.com/300x200" alt="Orphanage 2">
+            <h2>Sunshine Kids Orphanage</h2>
+            <p>Location: 456 Elm St, City B</p>
+            <p>Capacity: 40 children</p>
+            <p>Contact: +987-654-3210</p>
+        </div>
+
+        <div class="profile">
+            <img src="https://via.placeholder.com/300x200" alt="Orphanage 3">
+            <h2>Bright Futures Orphanage</h2>
+            <p>Location: 789 Pine St, City C</p>
+            <p>Capacity: 60 children</p>
+            <p>Contact: +555-123-4567</p>
+        </div>
+    </div>
+
+    <!-- Orphanage Selection Dropdown -->
+    <div id="orphanage-select-section" class="orphanage-select-section" style="display: none;">
+        <h3>Select an Orphanage</h3>
+        <select id="orphanage-select" onchange="showFinalDonateButton()">
+            <option value="">Select an orphanage</option>
+            <option value="Happy Hearts Orphanage">Happy Hearts Orphanage</option>
+            <option value="Sunshine Kids Orphanage">Sunshine Kids Orphanage</option>
+            <option value="Bright Futures Orphanage">Bright Futures Orphanage</option>
+        </select>
+        <button id="final-donate-btn" class="donate-btn" onclick="finalDonation()" style="display: none;">Donate Now</button>
+    </div>
+
+    <script>
+        // Show the Food Donation form and change the background
+function showFoodForm() {
+    document.body.classList.remove('clothes-bg');
+    document.body.classList.add('food-bg');
+    document.getElementById('food').style.display = 'block';
+    document.getElementById('clothes').style.display = 'none';
+    document.getElementById('profile-container').style.display = 'none';
+    document.getElementById('orphanage-select-section').style.display = 'none';
+    scrollToSection('food');
+}
+
+// Show the Clothes Donation form and change the background
+function showClothesForm() {
+    document.body.classList.remove('food-bg');
+    document.body.classList.add('clothes-bg');
+    document.getElementById('clothes').style.display = 'block';
+    document.getElementById('food').style.display = 'none';
+    document.getElementById('profile-container').style.display = 'none';
+    document.getElementById('orphanage-select-section').style.display = 'none';
+    scrollToSection('clothes');
+}
+
+// Scroll to a specific section
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    section.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Food Donation: Show donate button when all fields are filled
+function checkFoodForm() {
+    const personsInput = document.getElementById('persons').value;
+    const dateInput = document.getElementById('date').value;
+    const timeInput = document.getElementById('time').value;
+    const donateButton = document.getElementById('donate-food-btn');
+
+    if (personsInput > 0 && dateInput && timeInput) {
+        donateButton.style.display = 'inline-block';
+    } else {
+        donateButton.style.display = 'none';
+    }
+}
+
+// Clothes Donation: Show donate button when all fields are filled
+function checkClothesForm() {
+    const genderInput = document.getElementById('gender').value;
+    const ageGroupInput = document.getElementById('age-group').value;
+    const pairsInput = document.getElementById('pairs').value;
+    const donateButton = document.getElementById('donate-clothes-btn');
+
+    if (genderInput && ageGroupInput && pairsInput > 0) {
+        donateButton.style.display = 'inline-block';
+    } else {
+        donateButton.style.display = 'none';
+    }
+}
+
+// Show Orphanage Profiles
+function showOrphanageProfiles(donationType) {
+    document.getElementById('profile-container').style.display = 'block';
+    document.getElementById('orphanage-select-section').style.display = 'block';
+    scrollToSection('profile-container');
+}
+
+// Show the final donate button after orphanage selection
+function showFinalDonateButton() {
+    const orphanageSelect = document.getElementById('orphanage-select').value;
+    const finalDonateButton = document.getElementById('final-donate-btn');
+
+    if (orphanageSelect) {
+        finalDonateButton.style.display = 'inline-block';
+    } else {
+        finalDonateButton.style.display = 'none';
+    }
+}
+
+// Final Donation Confirmation
+function finalDonation() {
+    alert('Thank you for your donation!');
+}
+    </script>
+</body>
+</html>

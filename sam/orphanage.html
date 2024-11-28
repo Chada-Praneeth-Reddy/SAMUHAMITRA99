@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orphanage Donation Tracker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background: #4caf50;
+            color: white;
+            font-size: 2.5em;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .orphanage {
+            margin-bottom: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .orphanage img {
+            width: 100%;
+            height: auto;
+        }
+
+        .orphanage-details {
+            padding: 20px;
+        }
+
+        .orphanage-details h2 {
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        .orphanage-details p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .tracker-section {
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .tracker-card {
+            flex: 1;
+            min-width: 300px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .tracker-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .tracker-card label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .tracker-card input, .tracker-card button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .tracker-card button {
+            background-color: #4caf50;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tracker-card button:hover {
+            background-color: #45a049;
+        }
+
+        .donation-history {
+            margin-top: 20px;
+        }
+
+        .donation-history table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .donation-history th, .donation-history td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .donation-history th {
+            background-color: #f2f2f2;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>Orphanage Food & Clothes Donation Tracker</header>
+    <div class="container">
+
+        <!-- Orphanage Profile Section -->
+        <div class="orphanage">
+            <img src="https://www.kindpng.com/picc/m/22-223751_charity-child-orphanage-orphans-clipart.png" alt="Happy Hearts Orphanage">
+            <div class="orphanage-details">
+                <h2>Happy Hearts Orphanage</h2>
+                <p>A loving home for children in need, providing shelter, education, and care for over 50 children. Your food and clothing donations make a huge difference in their lives.</p>
+            </div>
+            <div class="tracker-section">
+                <div class="tracker-card">
+                    <h3>Add Food Donation</h3>
+                    <label for="food-happy">Food Item:</label>
+                    <input type="text" id="food-happy" placeholder="Enter food item (e.g., Rice, Bread)">
+                    <label for="quantity-happy">Quantity:</label>
+                    <input type="number" id="quantity-happy" placeholder="Enter quantity (e.g., kg or units)">
+                    <button onclick="addDonation('happy', 'food')">Add Food Donation</button>
+                </div>
+                <div class="tracker-card">
+                    <h3>Add Clothes Donation</h3>
+                    <label for="clothes-happy">Clothing Type:</label>
+                    <input type="text" id="clothes-happy" placeholder="Enter clothing type (e.g., Shirts, Pants)">
+                    <label for="count-happy">Count:</label>
+                    <input type="number" id="count-happy" placeholder="Enter count (e.g., 5)">
+                    <button onclick="addDonation('happy', 'clothes')">Add Clothes Donation</button>
+                </div>
+            </div>
+            <div class="donation-history">
+                <h3>Donation History</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Details</th>
+                            <th>Quantity/Count</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-happy">
+                        <!-- Donation entries will appear here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Repeat for other orphanages -->
+        <div class="orphanage">
+            <img src="https://www.kindpng.com/picc/m/198-1983307_kids-playing-and-smiling-orphan-children-hd-png.png" alt="Sunshine Kids Orphanage">
+            <div class="orphanage-details">
+                <h2>Sunshine Kids Orphanage</h2>
+                <p>Brightening the lives of underprivileged children, Sunshine Kids Orphanage supports over 70 kids with nutritious meals and proper clothing. Your contributions ensure they grow up with dignity and care.</p>
+            </div>
+            <div class="tracker-section">
+                <div class="tracker-card">
+                    <h3>Add Food Donation</h3>
+                    <label for="food-sunshine">Food Item:</label>
+                    <input type="text" id="food-sunshine" placeholder="Enter food item (e.g., Milk, Bread)">
+                    <label for="quantity-sunshine">Quantity:</label>
+                    <input type="number" id="quantity-sunshine" placeholder="Enter quantity (e.g., kg or units)">
+                    <button onclick="addDonation('sunshine', 'food')">Add Food Donation</button>
+                </div>
+                <div class="tracker-card">
+                    <h3>Add Clothes Donation</h3>
+                    <label for="clothes-sunshine">Clothing Type:</label>
+                    <input type="text" id="clothes-sunshine" placeholder="Enter clothing type (e.g., Sweaters)">
+                    <label for="count-sunshine">Count:</label>
+                    <input type="number" id="count-sunshine" placeholder="Enter count (e.g., 3)">
+                    <button onclick="addDonation('sunshine', 'clothes')">Add Clothes Donation</button>
+                </div>
+            </div>
+            <div class="donation-history">
+                <h3>Donation History</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Details</th>
+                            <th>Quantity/Count</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-sunshine">
+                        <!-- Donation entries will appear here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <footer>&copy; 2024 Orphanage Donation Tracker</footer>
+
+    <script>
+        const orphanages = {
+            happy: { history: [] },
+            sunshine: { history: [] },
+        };
+
+        function addDonation(orphanage, type) {
+            const item = document.getElementById(`${type}-${orphanage}`).value;
+            const quantity = document.getElementById(`${type === 'food' ? 'quantity' : 'count'}-${orphanage}`).value;
+
+            if (!item || !quantity) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            const date = new Date().toLocaleDateString();
+            orphanages[orphanage].history.push({ type, item, quantity, date });
+
+            const historyTable = document.getElementById(`history-${orphanage}`);
+            const row = `<tr><td>${type === 'food' ? 'Food' : 'Clothes'}</td><td>${item}</td><td>${quantity}</td><td>${date}</td></tr>`;
+            historyTable.innerHTML += row;
+
+            document.getElementById(`${type}-${orphanage}`).value = '';
+            document.getElementById(`${type === 'food' ? 'quantity' : 'count'}-${orphanage}`).value = '';
+        }
+    </script>
+</body>
+</html>

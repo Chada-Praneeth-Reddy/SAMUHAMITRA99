@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samuhamitra Communities</title>
+    <style>
+        /* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f4f9;
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Header */
+.header {
+    background-color: #282c34;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+}
+
+.header .logo {
+    height: 100px; /* Increased size */
+    width: auto;
+}
+
+.header .website-title {
+    font-size: 1.8rem;
+}
+
+.header .login-btn {
+    background-color: #61dafb;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    color: #282c34;
+    font-weight: bold;
+}
+
+/* Slideshow */
+.slideshow {
+    position: relative;
+    width: 100vw;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+}
+
+.slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: #fff;
+}
+
+.slide.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.slide-content {
+    position: relative;
+}
+
+.slide-text {
+    font-size: 3rem;
+    font-weight: bold; /* Make text bold */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Add shadow effect */
+    margin-bottom: 20px;
+    animation: textZoomIn 1.5s ease-in-out;
+}
+
+@keyframes textZoomIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.explore-btn {
+    background-color: #61dafb;
+    border: none;
+    padding: 15px 30px;
+    color: #282c34;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+    position: relative;
+    top: 20px; /* Adjust to center the button */
+}
+
+.explore-btn:hover {
+    transform: scale(1.1);
+}
+
+/* What We Do Section */
+.what-we-do {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.image-row {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.image-box {
+    width: 30%;
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.image-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 20px 5px #61dafb;
+}
+
+.image-desc {
+    position: relative;
+    z-index: 1;
+}
+
+/* Our Communities Section */
+.our-communities {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.community-row {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.community-box {
+    width: 30%;
+    background-size: cover;
+    background-position: center;
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.community-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 20px 5px #61dafb;
+}
+
+.community-desc {
+    position: relative;
+    z-index: 1;
+}
+
+/* Google Maps Section */
+.maps-section {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.map-row {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.gmap {
+    width: 30%;
+    height: 300px;
+    border: 0;
+}
+
+/* Contact Us & Feedback Section */
+.contact-us, .feedback {
+    padding: 40px 20px;
+    background-color: #fff;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    text-align: center;
+}
+
+.contact-us h2, .feedback h2 {
+    font-size: 2rem;
+    color: #282c34;
+    margin-bottom: 20px;
+}
+
+#contact-form, #feedback-form {
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#contact-form input, #contact-form textarea,
+#feedback-form input, #feedback-form textarea {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#contact-form button, #feedback-form button {
+    background-color: #61dafb;
+    border: none;
+    padding: 10px 20px;
+    color: #282c34;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s;
+}
+
+#contact-form button:hover, #feedback-form button:hover {
+    background-color: #55b8e8;
+    transform: scale(1.05);
+}
+    </style>
+</head>
+<body>
+    <!-- Header with Logo and Website Title -->
+    <header class="header">
+        <img src="samuicon.png" alt="Samuhamitra Logo" class="logo">
+        <h1 class="website-title">Samuhamitra Community</h1>
+        <a href="login.html" class="login-btn">LOGIN</a>
+    </header>
+
+    <!-- Image Slideshow -->
+    <div class="slideshow">
+        <div class="slide active" style="background-image: url('https://www.tiss.edu/uploads/images/IMG_9709_2.jpeg');">
+            <div class="slide-content">
+                <p class="slide-text">Welcome to Samuhamitra, a place for empowering our community.</p>
+                <button class="explore-btn" onclick="scrollToSection('what-we-do')">Explore</button>
+            </div>
+        </div>
+        <div class="slide" style="background-image: url('https://media.licdn.com/dms/image/v2/D5622AQFzNIhoe916Qw/feedshare-shrink_800/feedshare-shrink_800/0/1724223804255?e=2147483647&v=beta&t=a7vdqoa4aG_xbb5lPMgcWDbPvkhrC_4hFZL0l2kqN7U');">
+            <div class="slide-content">
+                <p class="slide-text">Join us in our efforts to foster community engagement.</p>
+                <button class="explore-btn" onclick="scrollToSection('what-we-do')">Explore</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- "What We Do" Section -->
+    <section id="what-we-do" class="what-we-do">
+        <h2>What We Do</h2>
+        <p>Our community-driven efforts focus on promoting positive change through collective action and engagement.</p>
+        <div class="image-row">
+            <div class="image-box" style="background-image: url('https://www.balavikasa.org/uploads/blogs/critical-medical-equipment-medical-and-essential-supplies-help-communities-survive-covid-second-wave-in-telangana298.jpg');">
+                <p class="image-desc">Providing essential medical supplies to underserved communities.</p>
+            </div>
+            <div class="image-box" style="background-image: url('https://vishvumiyafoundation.org/public/assets/images/event-gallery/103/214a4427-20231212112433.jpg');">
+                <p class="image-desc">Organizing community events for health awareness and education.</p>
+            </div>
+            <div class="image-box" style="background-image: url('https://vishvumiyafoundation.org/public/assets/images/event-image/whatsapp-image-2024-08-02-at-32253-pm-20240802052307.jpeg');">
+                <p class="image-desc">Promoting sustainable practices through community workshops.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- "Our Communities" Section -->
+    <section id="our-communities" class="our-communities">
+        <h2>Our Communities</h2>
+        <div class="community-row">
+            <div class="community-box" style="background-image: url('https://5.imimg.com/data5/SG/CY/MY-51212786/gated-community-villas-in-hyderabad-500x500.jpg');">
+                <p class="community-desc">Gated Community in Hyderabad - Close to Hi-Tech City.</p>
+            </div>
+            <div class="community-box" style="background-image: url('https://buildoninfra.com/wp-content/uploads/2024/07/The-Rise-of-Gated-Communities-in-Hyderabad.png');">
+                <p class="community-desc">Luxury Villas Community - Near Financial District.</p>
+            </div>
+            <div class="community-box" style="background-image: url('https://www.modibuilders.com/wp-content/uploads/screenshot-www.modibuilders.com-2018.06.02-11-59-41.png');">
+                <p class="community-desc">Modern Apartment Community - In Gachibowli.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Maps Section -->
+    <section class="maps-section">
+        <h2>Our Locations</h2>
+        <div class="map-row">
+            <iframe src="https://maps.google.com/maps?q=17.4448,78.3498&z=15&output=embed" class="gmap"></iframe>
+            <iframe src="https://maps.google.com/maps?q=17.4239,78.3719&z=15&output=embed" class="gmap"></iframe>
+            <iframe src="https://maps.google.com/maps?q=17.4467,78.3578&z=15&output=embed" class="gmap"></iframe>
+        </div>
+    </section>
+
+    <!-- "Contact Us" Section -->
+    <section class="contact-us">
+        <h2>Contact Us</h2>
+        <form id="contact-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <!-- "Feedback" Section -->
+    <section class="feedback">
+        <h2>Feedback</h2>
+        <form id="feedback-form">
+            <input type="text" placeholder="Your Name" required>
+            <textarea placeholder="Your Feedback" required></textarea>
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </section>
+
+    <script>
+        // Slide Show Script
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+
+function showSlide(slideIndex) {
+    slides.forEach((slide, index) => {
+        slide.classList.remove('active');
+        if (index === slideIndex) {
+            slide.classList.add('active');
+        }
+    });
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    showSlide(currentSlide);
+}
+
+setInterval(nextSlide, 3000); // Automatically change slides every 3 seconds
+
+// Scroll to Section Function for Explore Button
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    section.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Contact Form Submission
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    alert("Your message has been sent!");
+});
+
+// Feedback Form Submission
+document.getElementById('feedback-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    alert("Thank you for your feedback!");
+});
+    </script>
+</body>
+</html>

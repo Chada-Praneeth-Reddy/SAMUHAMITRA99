@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samuhamitra - Guest's Arrival</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column; /* Vertical representation */
+    align-items: center;
+}
+
+button {
+    padding: 15px 100px; /* Increased padding for wider buttons */
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    margin: 10px 0; /* Space between buttons */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+}
+
+.back-button {
+    font-size: 20px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.back-button:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* File upload styles */
+.file-upload {
+   margin-top: 20px; 
+   text-align: center; 
+}
+
+#file-preview {
+   margin-top: 10px; 
+   display: flex; 
+   flex-direction: column; 
+   align-items: center; 
+}
+
+/* Additional styles */
+.blur {
+    filter: blur(5px);
+}
+
+.checkbox {
+   margin-right: 10px; /* Space between checkbox and label */
+}
+    </style>
+</head>
+<body>
+
+<div class="container" id="selection-container">
+    <h1>Guest's Arrival</h1>
+    <div id="buttons-container">
+        <div class="button-group">
+            <h2>Rooms 101-110</h2>
+            <button onclick="navigateToPage('101')">101</button>
+            <button onclick="navigateToPage('102')">102</button>
+            <button onclick="navigateToPage('103')">103</button>
+            <button onclick="navigateToPage('104')">104</button>
+            <button onclick="navigateToPage('105')">105</button>
+            <button onclick="navigateToPage('106')">106</button>
+            <button onclick="navigateToPage('107')">107</button>
+            <button onclick="navigateToPage('108')">108</button>
+            <button onclick="navigateToPage('109')">109</button>
+            <button onclick="navigateToPage('110')">110</button>
+        </div>
+        <div class="button-group">
+            <h2>Rooms 201-210</h2>
+            <button onclick="navigateToPage('201')">201</button>
+            <button onclick="navigateToPage('202')">202</button>
+            <button onclick="navigateToPage('203')">203</button>
+            <button onclick="navigateToPage('204')">204</button>
+            <button onclick="navigateToPage('205')">205</button>
+            <button onclick="navigateToPage('206')">206</button>
+            <button onclick="navigateToPage('207')">207</button>
+            <button onclick="navigateToPage('208')">208</button>
+            <button onclick="navigateToPage('209')">209</button>
+            <button onclick="navigateToPage('210')">210</button>
+        </div>
+        <div class="button-group">
+            <h2>Rooms 301-310</h2>
+            <button onclick="navigateToPage('301')">301</button>
+            <button onclick="navigateToPage('302')">302</button>
+            <button onclick="navigateToPage('303')">303</button>
+            <button onclick="navigateToPage('304')">304</button>
+            <button onclick="navigateToPage('305')">305</button>
+            <button onclick="navigateToPage('306')">306</button>
+            <button onclick="navigateToPage('307')">307</button>
+            <button onclick="navigateToPage('308')">308</button>
+            <button onclick="navigateToPage('309')">309</button>
+            <button onclick="navigateToPage('310')">310</button>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="note-container" style="display: none;">
+    <a href="#" class="back-button" onclick="goBack()">← Back</a>
+    <h2 id="note-heading"></h2>
+
+    <div>
+        <label for="guest-name">Name:</label>
+        <input type="text" id="guest-name" disabled>
+    </div>
+    <div>
+        <label for="guest-contact">Contact Number:</label>
+        <input type="text" id="guest-contact" disabled>
+    </div>
+
+    <!-- File upload section -->
+    <div class="file-upload">
+        <label for="file-input">Upload File:</label>
+        <input type="file" id="file-input" accept=".jpg,.jpeg,.png,.pdf">
+        <button id="upload-button" onclick="uploadFile()">Upload</button>
+        <button id="delete-selected-button" onclick="deleteSelectedFiles()" style="display: none;">Delete Selected Files</button>
+        <div id="file-preview"></div> <!-- Display uploaded files -->
+    </div>
+
+    <!-- Edit and save buttons -->
+    <div class='edit-buttons'>
+        <!-- Edit and save buttons -->
+        <button id='edit-button' style='display: none;' onclick='editGuestInfo()'>Edit</button>
+        <button id='save-edit-button' style='display: none;' onclick='saveGuestInfo()'>Save</button>
+
+        <!-- Notes section -->
+        <textarea id='note-text' placeholder='Write your notes here...'></textarea>
+
+        <!-- Notes action buttons -->
+        <div class='notes-actions'>
+            <button id='save-button' onclick='saveNotes()'>Save Notes</button>
+            <button id='delete-button' onclick='deleteNotes()'>Delete Notes</button> 
+        </div> 
+    </div> 
+</div>
+
+<script src="./js/guestarr.js"></script>
+
+<!-- Add any additional scripts here -->
+
+<script>
+// JavaScript functions (e.g., navigateToPage, uploadFile, etc.) should be included here or in guestarr.js
+// Ensure that all necessary functions are defined in guestarr.js
+// Example function to navigate to page
+function navigateToPage(roomNumber) {
+   localStorage.setItem("selectedGuest", roomNumber);
+   document.getElementById("selection-container").style.display = "none";
+   document.getElementById("note-container").style.display = "block";
+   loadGuestInfo(); // Load guest information based on room number
+   loadNotes(); // Load notes associated with the guest
+}
+function navigateToPage(range) {
+    localStorage.setItem('selectedGuest', range);
+    document.getElementById('selection-container').style.display = 'none';
+    document.getElementById('note-container').style.display = 'block';
+    loadGuestInfo();
+    loadNotes();
+}
+
+function loadGuestInfo() {
+    const guestNumber = localStorage.getItem('selectedGuest');
+    const guestInfo = localStorage.getItem(`guestInfo_${guestNumber}`);
+   
+    if (guestInfo) {
+        const guestData = JSON.parse(guestInfo);
+        document.getElementById('guest-name').value = guestData.name;
+        document.getElementById('guest-contact').value = guestData.contact;
+        document.getElementById('guest-name').disabled = true;
+        document.getElementById('guest-contact').disabled = true;
+        document.getElementById('edit-button').style.display = 'block';
+        document.getElementById('save-edit-button').style.display = 'none';
+    } else {
+        document.getElementById('guest-name').value = '';
+        document.getElementById('guest-contact').value = '';
+        document.getElementById('guest-name').disabled = false;
+        document.getElementById('guest-contact').disabled = false;
+        document.getElementById('edit-button').style.display = 'none';
+        document.getElementById('save-edit-button').style.display = 'block';
+    }
+}
+
+function saveGuestInfo() {
+    const guestNumber = localStorage.getItem('selectedGuest');
+    const guestName = document.getElementById('guest-name').value;
+    const guestContact = document.getElementById('guest-contact').value;
+
+    const guestInfo = { name: guestName, contact: guestContact };
+    localStorage.setItem(`guestInfo_${guestNumber}`, JSON.stringify(guestInfo));
+    alert('Guest information saved!');
+   
+    document.getElementById('guest-name').disabled = true;
+    document.getElementById('guest-contact').disabled = true;
+    document.getElementById('edit-button').style.display = 'block';
+    document.getElementById('save-edit-button').style.display = 'none';
+}
+
+function editGuestInfo() {
+    document.getElementById('guest-name').disabled = false;
+    document.getElementById('guest-contact').disabled = false;
+
+    document.getElementById('edit-button').style.display = 'none';
+    document.getElementById('save-edit-button').style.display = 'block';
+}
+
+function loadNotes() {
+    const guestNumber = localStorage.getItem('selectedGuest');
+    document.getElementById('note-heading').innerText = `Notes for Room ${guestNumber}`;
+
+    const savedNotes = localStorage.getItem(`notes_${guestNumber}`);
+    if (savedNotes) {
+        document.getElementById('note-text').value = savedNotes;
+    } else {
+        document.getElementById('note-text').value = ''; // Clear textarea if no notes exist
+    }
+
+    loadFiles(); // Load uploaded files
+}
+
+// Function to upload files
+function uploadFile() {
+   const fileInput = document.getElementById("file-input");
+   const filePreview = document.getElementById("file-preview");
+   
+   if (fileInput.files.length > 0) {
+       Array.from(fileInput.files).forEach(file => {
+           const fileUrl = URL.createObjectURL(file); // Create a URL for the file
+           const fileSymbol = document.createElement("div");
+           fileSymbol.innerHTML =
+               `<input type='checkbox' class='checkbox' data-filename='${file.name}' /> 📁 ${file.name}
+                <a href="${fileUrl}" target="_blank">Open</a>
+                <button onclick='deleteFile(this)'>Delete</button>`;
+           filePreview.appendChild(fileSymbol);
+           saveFile(file.name); // Save the file reference
+       });
+       
+       fileInput.value = ""; // Clear input
+       updateDeleteButtonVisibility();
+   }
+}
+
+// Function to save the uploaded file reference in local storage
+function saveFile(fileName) {
+   const guestNumber = localStorage.getItem("selectedGuest");
+   
+   let uploadedFiles = JSON.parse(localStorage.getItem(`uploadedFiles_${guestNumber}`)) || [];
+   
+   uploadedFiles.push(fileName); // Store the filename
+   localStorage.setItem(`uploadedFiles_${guestNumber}`, JSON.stringify(uploadedFiles));
+}
+
+// Function to delete a specific uploaded file
+function deleteFile(button) {
+   const fileName = button.parentNode.querySelector('.checkbox').getAttribute('data-filename');
+   const guestNumber = localStorage.getItem("selectedGuest");
+   
+   let uploadedFiles = JSON.parse(localStorage.getItem(`uploadedFiles_${guestNumber}`)) || [];
+   
+   uploadedFiles = uploadedFiles.filter(file => file !== fileName); // Remove the file from array
+   localStorage.setItem(`uploadedFiles_${guestNumber}`, JSON.stringify(uploadedFiles));
+   
+   button.parentNode.remove(); // Remove from UI
+   updateDeleteButtonVisibility();
+}
+
+// Function to delete selected files
+function deleteSelectedFiles() {
+   const checkboxes = document.querySelectorAll('#file-preview .checkbox:checked');
+   const guestNumber = localStorage.getItem("selectedGuest");
+   
+   checkboxes.forEach(checkbox => {
+       const fileName = checkbox.getAttribute('data-filename');
+       let uploadedFiles = JSON.parse(localStorage.getItem(`uploadedFiles_${guestNumber}`)) || [];
+       
+       uploadedFiles = uploadedFiles.filter(file => file !== fileName);
+       localStorage.setItem(`uploadedFiles_${guestNumber}`, JSON.stringify(uploadedFiles));
+       checkbox.parentNode.remove();
+   });
+
+   updateDeleteButtonVisibility();
+}
+
+// Function to update visibility of the delete button based on checkbox selection
+function updateDeleteButtonVisibility() {
+   const checkboxes = document.querySelectorAll('#file-preview .checkbox');
+   const deleteButton = document.getElementById('delete-selected-button');
+   
+   // Show or hide the delete button based on checkbox selection
+   deleteButton.style.display = Array.from(checkboxes).some(checkbox => checkbox.checked) ? 'block' : 'none';
+}
+
+// Function to load and display uploaded files on page load
+function loadFiles() {
+   const guestNumber = localStorage.getItem("selectedGuest");
+   
+   const uploadedFilesContainer = document.getElementById("file-preview");
+   
+   let uploadedFiles = JSON.parse(localStorage.getItem(`uploadedFiles_${guestNumber}`)) || [];
+   
+   uploadedFilesContainer.innerHTML = ""; // Clear previous entries
+   
+  uploadedFiles.forEach(file => {
+        const fileUrlPlaceholder = URL.createObjectURL(new Blob([file], {type:'application/octet-stream'}));
+        const fileSymbol = document.createElement("div");
+        fileSymbol.innerHTML =
+            `<input type='checkbox' class='checkbox' data-filename='${file}' /> 📁 ${file}
+             <a href="${fileUrlPlaceholder}" target="_blank">Open</a>
+             <button onclick='deleteFile(this)'>Delete</button>`;
+        uploadedFilesContainer.appendChild(fileSymbol);
+    });
+}
+
+// Function to go back to the selection screen
+function goBack() {
+     document.getElementById("selection-container").style.display = "block";
+     document.getElementById("note-container").style.display = "none";
+}
+
+// Load notes and files when the page loads
+window.onload = function() {
+     const guestNumber = localStorage.getItem("selectedGuest");
+     
+     if (guestNumber) {
+         loadGuestInfo();
+         loadNotes(); // Load notes if a guest is already selected
+         loadFiles(); // Load files if a guest is already selected
+     }
+};
+</script>
+
+</body>
+</html>

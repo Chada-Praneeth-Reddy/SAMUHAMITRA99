@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://th.bing.com/th/id/R.871010b695cac30ee5de7d167a909466?rik=6V9bLL%2b8WUw7Fw&riu=http%3a%2f%2fthumbs.dreamstime.com%2fz%2ffinance-accounting-concept-creative-abstract-business-tax-banking-statistics-money-analytic-research-office-electronic-51519008.jpg&ehk=ifXXTe2qUNevVG4kxAMyoq6AhABQa%2bAj98Qag5yRm%2bU%3d&risl=&pid=ImgRaw&r=0') no-repeat center center/cover;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+
+        .balance-display {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .balance-display div {
+            flex: 1;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            color: #fff;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        form input, form button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        form input {
+            flex: 1;
+            min-width: 150px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #000;
+        }
+
+        form button {
+            background-color: #00d4ff;
+            color: black;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        form button:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .expense-list ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .expense-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 5px solid #43a047;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .expense-list li span {
+            font-weight: bold;
+            color: #00ff00;
+        }
+
+        .expense-list li button {
+            background: none;
+            border: none;
+            color: #ff4d4d;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .back-home {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            background-color: #007bff;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .back-home:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 600px) {
+            form {
+                flex-direction: column;
+            }
+
+            .balance-display {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Expense Tracker</h1>
+        </header>
+        <div class="balance-display">
+            <div id="monthly-maintenance">Monthly Maintenance: ₹0</div>
+            <div id="total-expense">Total Expense: ₹0</div>
+            <div id="balance">Balance: ₹0</div>
+        </div>
+        <section>
+            <form id="maintenance-form">
+                <input type="number" id="monthly-amount" placeholder="Enter Monthly Maintenance (₹)" required>
+                <button type="submit">Set Monthly Maintenance</button>
+            </form>
+            <form id="expense-form">
+                <input type="text" id="expense-desc" placeholder="Expense Description" required>
+                <input type="number" id="expense-amount" placeholder="Expense Amount (₹)" required>
+                <button type="submit">Add Expense</button>
+            </form>
+            <div class="expense-list">
+                <h3>Expenses</h3>
+                <ul id="expense-log"></ul>
+            </div>
+        </section>
+        <a href="home.html" class="back-home">Back to Home</a>
+    </div>
+
+    <script>
+        // Select elements
+        const maintenanceForm = document.getElementById('maintenance-form');
+        const expenseForm = document.getElementById('expense-form');
+        const expenseLog = document.getElementById('expense-log');
+        const maintenanceDisplay = document.getElementById('monthly-maintenance');
+        const totalExpenseDisplay = document.getElementById('total-expense');
+        const balanceDisplay = document.getElementById('balance');
+
+        // Initialize variables
+        let monthlyMaintenance = parseInt(localStorage.getItem('monthlyMaintenance')) || 0;
+        let expenses = JSON.parse(localStorage.getItem('expenses')) || [];
+        let totalExpense = calculateTotal(expenses);
+
+        // Update UI initially
+        updateUI();
+
+        // Add Monthly Maintenance Event Listener
+        maintenanceForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const maintenance = parseInt(document.getElementById('monthly-amount').value);
+            if (maintenance > 0) {
+                monthlyMaintenance = maintenance;
+                saveMaintenance();
+                updateUI();
+                document.getElementById('monthly-amount').value = ''; // Clear input field
+            } else {
+                alert("Please enter a valid maintenance amount.");
+            }
+        });
+
+        // Add Expense Event Listener
+        expenseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const desc = document.getElementById('expense-desc').value;
+            const amount = parseInt(document.getElementById('expense-amount').value);
+
+            if (desc && amount > 0) {
+                const expense = { desc, amount };
+                expenses.push(expense);
+                totalExpense += amount;
+
+                saveExpenses();
+                updateUI();
+
+                document.getElementById('expense-desc').value = '';
+                document.getElementById('expense-amount').value = '';
+            } else {
+                alert("Please enter valid expense details.");
+            }
+        });
+
+        // Update UI
+        function updateUI() {
+            expenseLog.innerHTML = '';
+            expenses.forEach((expense, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${expense.desc}: <span>₹${expense.amount}</span>
+                    <button onclick="removeExpense(${index})">x</button>
+                `;
+                expenseLog.appendChild(li);
+            });
+
+            maintenanceDisplay.textContent = `Monthly Maintenance: ₹${monthlyMaintenance}`;
+            totalExpenseDisplay.textContent = `Total Expense: ₹${totalExpense}`;
+            balanceDisplay.textContent = `Balance: ₹${monthlyMaintenance - totalExpense}`;
+        }
+
+        // Save Maintenance to localStorage
+        function saveMaintenance() {
+            localStorage.setItem('monthlyMaintenance', monthlyMaintenance);
+        }
+
+        // Save Expenses to localStorage
+        function saveExpenses() {
+            localStorage.setItem('expenses', JSON.stringify(expenses));
+        }
+
+        // Calculate Total Expense
+        function calculateTotal(expenses) {
+            return expenses.reduce((sum, expense) => sum + expense.amount, 0);
+        }
+
+        // Remove Expense
+        function removeExpense(index) {
+            totalExpense -= expenses[index].amount;
+            expenses.splice(index, 1);
+
+            saveExpenses();
+            updateUI();
+        }
+    </script>
+</body>
+</html>

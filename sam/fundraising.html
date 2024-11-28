@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fund Raising</title>
+    <style>
+        /* Add background image and styling */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://img.freepik.com/free-vector/watercolor-international-human-solidarity-day-background_23-2149837203.jpg?t=st=1730538254~exp=1730541854~hmac=4b766b7d495d71e750307e0cef4c84777ef0097468c357307810836139f213ec&w=996'); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    display: block;
+    margin: 15px 0 5px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fund Raising</h1>
+        <form id="donationForm">
+            <!-- Donor Details -->
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Your Full Name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Your Email Address" required>
+
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Your Phone Number">
+
+            <!-- Donation Preferences -->
+            <label for="amount">Donation Amount (in INR)</label>
+            <input type="number" id="amount" name="amount" min="1" step="1" required>
+
+            <!-- Orphanage Selection -->
+            <label for="orphanage">Select Nearest Orphanage</label>
+            <select id="orphanage" name="orphanage" required>
+                <option value="Orphanage1">Orphanage 1, New Delhi</option>
+                <option value="Orphanage2">Orphanage 2, Mumbai</option>
+                <option value="Orphanage3">Orphanage 3, Bengaluru</option>
+                <option value="Orphanage4">Orphanage 4, Chennai</option>
+                <option value="Orphanage5">Orphanage 5, Hyderabad</option>
+            </select>
+
+            <label for="cause">Preferred Cause</label>
+            <select id="cause" name="cause">
+                <option value="general">General Fund</option>
+                <option value="education">Education Support</option>
+                <option value="healthcare">Healthcare Programs</option>
+                <option value="environment">Environment Initiatives</option>
+                <option value="charity">Charity Donation</option>
+            </select>
+
+            <!-- Payment Method -->
+            <label for="payment-method">Choose Payment Method</label>
+            <select id="payment-method" name="payment_method" required>
+                <option value="phonepe">PhonePe</option>
+                <option value="googlepay">Google Pay</option>
+                <option value="paytm">Paytm</option>
+                <option value="upi">Other UPI App</option>
+            </select>
+            <div id="qr-section" class="hidden">
+                <h3>Scan to Pay</h3>
+                <!-- Using your provided QR code link -->
+                <img id="qr-code" src="https://i.postimg.cc/9Qm0Nhsr/phonepay.png" alt="PhonePe QR Code">
+                <p>Or, use the UPI link below:</p>
+                <a id="upi-link" href="#" target="_blank">Pay Now</a>
+            </div>
+
+            <!-- Acknowledgment -->
+            <label for="anonymous">Would you like to remain anonymous?</label>
+            <select id="anonymous" name="anonymous">
+                <option value="no">No, acknowledge my donation</option>
+                <option value="yes">Yes, keep my donation anonymous</option>
+            </select>
+
+            <label>
+                <input type="checkbox" name="terms" required> I agree to the terms and conditions.
+            </label>
+
+            <button type="button" onclick="initiateUPIPayment()">Donate Now</button>
+            <button type="button" onclick="goToHomepage()">Back to Homepage</button>
+        </form>
+    </div>
+    <script>
+    function initiateUPIPayment() {
+    const name = document.getElementById('name').value;
+    const amount = document.getElementById('amount').value;
+    const orphanage = document.getElementById('orphanage').value;
+
+    if (!amount || amount <= 0) {
+        alert("Please enter a valid donation amount.");
+        return;
+    }
+
+    const upiId = "your-organization@upi";  // Replace with your UPI ID
+
+    // Create UPI payment URL
+    const upiLink = `upi.//pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(orphanage)}`;
+
+    // Redirect to the chosen UPI app or handler
+    window.location.href = upiLink;
+}
+// Function to display the QR code
+function showQRCode() {
+    // Get the QR code section
+    const qrSection = document.getElementById('qr-section');
+
+    // Remove the 'hidden' class to show the QR code
+    qrSection.classList.remove('hidden');
+
+    // Optionally, you can also change the UPI link dynamically if needed:
+    const amount = document.getElementById('amount').value;
+    const upiId = "your-organization@upi";  // Replace with your UPI ID
+    const upiLink = upi`://pay?pa=${upiId}&am=${amount}&cu=INR&tn=Donation`;
+
+    // Update the UPI link
+    document.getElementById('upi-link').href = upiLink;
+}
+
+// Function for back to homepage button
+function goToHomepage() {
+    window.location.href = 'home.html';  // Replace with your homepage URL
+}
+    </script>
+</body>
+</html>
